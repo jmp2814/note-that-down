@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const noteData = require('./db/db.json');
+const db = require('./db/db.json');
 const uuid = require('./helpers/uuid.js');
 const utils = require('./helpers/fsUtils.js');
+const { json } = require('express');
 
 const PORT = 3001;
 
@@ -19,7 +20,7 @@ app.get('/api/notes', (req, res) => {
     utils.readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)))
 });
 
-
+// adds a new note to list
 app.post('/api/notes', (req, res) => {
     console.info(`${req.method} request received to add a note`);
 
@@ -41,20 +42,39 @@ app.post('/api/notes', (req, res) => {
 
                 utils.writeToFile('./db/db.json', JSON.stringify(parsedNotes))
             });
-    
 
 
-const response = {
-    status: 'success',
-    body: newNote,
-};
+        const response = {
+            status: 'success',
+            body: newNote,
+        };
 
-console.log(response);
-res.status(201).json(response);
-        } else {
-    res.status(500).json('Error in creating note');
-}
-    });
+        console.log(response);
+        res.status(201).json(response);
+    } else {
+        res.status(500).json('Error in creating note');
+    }
+});
+
+// deletes a specific note
+app.delete('/api/notes/:id', (req, res) => {
+    utils.readFromFile('./db/db.json')
+        .then((data) => {
+            let notes = JSON.parse(data);
+
+            for (let i = 0; i < notes.length; i++) {
+                let currentNote = notes[i];
+                if (currentNote.id === req.params.id) {
+                    notes.splice(i, 1);
+                    utils.writeToFile('./db/db.json', JSON.stringify(notes))
+                    return res.status(200).json(`${currentNote} was deleted!`);
+                }
+            }
+
+            return res.status(500).json('Oops, something went wrong!');
+
+        })
+});
 
 
 app.get('/notes', (req, res) => {
