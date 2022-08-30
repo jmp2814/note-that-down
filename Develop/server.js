@@ -6,7 +6,7 @@ const uuid = require('./helpers/uuid.js');
 const utils = require('./helpers/fsUtils.js');
 const { json } = require('express');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
