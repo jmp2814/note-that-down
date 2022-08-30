@@ -68,6 +68,7 @@ app.delete('/api/notes/:id', (req, res) => {
                     notes.splice(i, 1);
                     utils.writeToFile('./db/db.json', JSON.stringify(notes))
                     return res.status(200).json(`${currentNote} was deleted!`);
+
                 }
             }
 
