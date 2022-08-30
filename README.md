@@ -35,3 +35,4 @@ SO THAT I can organize my thoughts and keep track of tasks I need to complete
 ![noteTaker2](https://user-images.githubusercontent.com/103081923/187530165-6cc723eb-badc-4cd3-8e33-baa5459e9cb2.PNG)
 
 # Deployment
+Heroku deployment: https://frozen-reef-95442.herokuapp.com/
